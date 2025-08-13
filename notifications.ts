@@ -1,48 +1,54 @@
+type Email = {
 
-interface Notification {
-    email: {
-        correo: string
-        subject: string
-        body: string
-    }
-    sms: {
-        phone: string
-        message: string
-    }
-    push: {
-        title: string
-        body: string
-    }
+    correo: string
+    subject: string
+    body: string
 
 }
 
-function sendNotification(notification: Notification) {
-    if (notification.email) {
-        console.log(`Enviando correo a ${notification.email.correo} con asunto ${notification.email.subject} y cuerpo ${notification.email.body}`);
-    }
-    if (notification.sms) {
-        console.log(`Enviando SMS a ${notification.sms.phone} con mensaje ${notification.sms.message}`);
-    }
-    if (notification.push) {
-        console.log(`Enviando notificación push con título ${notification.push.title} y cuerpo ${notification.push.body}`);
-    }
+type SMS = {
+
+    telefono: number
+    mensaje: string
 
 }
 
-const notification: Notification = {
-    email: {
-        correo: 'test@test.com',
-        subject: 'Test',
-        body: 'Test'
-    },
-    sms: {
-        phone: '1234567890',
-        message: 'Test'
-    },
-    push: {
-        title: 'Test',
-        body: 'Test'
+type Push = {
+
+    aplicacion: string
+    cuerpo: string
+
+}
+
+type Notifications = Email | SMS | Push
+
+function sendNotification(notify: Notifications) {
+    if ('correo' in notify) {
+        console.log(`Enviando correo a ${notify.correo} con asunto ${notify.subject} y cuerpo ${notify.body}`)
+    }
+    else if ('telefono' in notify) {
+        console.log(`Enviando SMS al numero ${notify.telefono} con mensaje ${notify.mensaje}`);
+        
+    }
+    else {
+         console.log(`Enviando notificacion Push a la aplicacion ${notify.aplicacion} con mensaje ${notify.cuerpo}`);
     }
 }
 
-sendNotification(notification);
+const notificacion1: Email = {
+    correo: "carlosmario.a@hotmail.com",
+    subject: 'Test',
+    body: 'Test'
+}
+const notificacion2: SMS = {
+    telefono: 3136700509,
+    mensaje: "test"
+}
+const notificacion3: Push = {
+    aplicacion: "Facebook",
+    cuerpo: "Solicitud de amistad"
+}
+
+sendNotification(notificacion1);
+sendNotification(notificacion2);
+sendNotification(notificacion3);
